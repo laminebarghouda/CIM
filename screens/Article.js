@@ -8,12 +8,8 @@ import {
     Dimensions,
     ScrollView,
     TouchableOpacity,
-    Button,
     Linking
 } from 'react-native'
-
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
-
 import * as theme from '../theme';
 import AntDesign from "react-native-vector-icons/AntDesign";
 
@@ -147,67 +143,117 @@ class Article extends Component {
 
   render() {
     const { navigation } = this.props;
+    const type = navigation.getParam('type');
     const article = navigation.getParam('article');
+      if (type === 'event') {
+          return (
+              <ScrollView>
+                  <View style={styles.flex}>
+                      <View style={[styles.flex]}>
+                          <ScrollView
+                              horizontal
+                              pagingEnabled
+                              scrollEnabled
+                              showsHorizontalScrollIndicator={false}
+                              decelerationRate={0}
+                              scrollEventThrottle={16}
+                              snapToAlignment="center"
+                              onScroll={Animated.event([{nativeEvent: {contentOffset: {x: this.scrollX}}}])}
+                          >
+                              {
+                                  article.images.map((img, index) =>
+                                      <Image
+                                          key={`${index}-${img}`}
+                                          source={img}
+                                          resizeMode='cover'
+                                          style={{width, height: width / 1.2}}
+                                      />
+                                  )
+                              }
+                          </ScrollView>
+                          {this.renderDots()}
+                      </View>
+                      <View style={[styles.flex, styles.content]}>
+                          <View style={[styles.flex, styles.contentHeader]}>
+                              <Image style={[styles.avatar, styles.shadow]} source={article.user.avatar}/>
+                              <Text style={styles.title}>{article.title}</Text>
+                              <View style={[
+                                  styles.row,
+                                  {alignItems: 'center', marginVertical: theme.sizes.margin / 4}
+                              ]}>
+                              </View>
 
-    return (
-        <ScrollView>
-      <View style={styles.flex}>
-        <View style={[styles.flex]}>
-          <ScrollView
-            horizontal
-            pagingEnabled
-            scrollEnabled
-            showsHorizontalScrollIndicator={false}
-            decelerationRate={0}
-            scrollEventThrottle={16}
-            snapToAlignment="center"
-            onScroll={Animated.event([{ nativeEvent: { contentOffset: { x: this.scrollX } } }])}
-          >
-            {
-              article.images.map((img, index) => 
-                <Image
-                  key={`${index}-${img}`}
-                  source={img}
-                  resizeMode='cover'
-                  style={{ width, height: width/1.2 }}
-                />
-              )
-            }
-          </ScrollView>
-          {this.renderDots()}
-        </View>
-        <View style={[styles.flex, styles.content]}>
-          <View style={[styles.flex, styles.contentHeader]}>
-            <Image style={[styles.avatar, styles.shadow]} source={article.user.avatar} />
-            <Text style={styles.title}>{article.title}</Text>
-            <View style={[
-              styles.row,
-              { alignItems: 'center', marginVertical: theme.sizes.margin / 4 }
-            ]}>
-            </View>
+                              <Text style={styles.description}>
+                                  {article.description}
+                              </Text>
+                          </View>
+                      </View>
+                  </View>
+                  <View style={[styles.column, styles.introduction, styles.shadow, styles.Link]}>
+                      <TouchableOpacity onPress={() => Linking.openURL('fb://page/1374925749399726')}>
+                          <View style={{justifyContent: 'center', alignItems: 'center',}}>
+                              <Text style={{color: theme.colors.active}}>
+                                  <AntDesign
+                                      name="form"
+                                      size={theme.sizes.font * 1.5}
+                                  />
+                                  {'\t'}{'\t'}Inscription
+                              </Text>
+                          </View>
+                      </TouchableOpacity>
+                  </View>
+              </ScrollView>
 
-              <Text style={styles.description}>
-                {article.description}
-              </Text>
-          </View>
-        </View>
-        </View>
-            <View style={ [styles.column, styles.introduction, styles.shadow, styles.Link]} >
-                <TouchableOpacity onPress={() => Linking.openURL('fb://page/1374925749399726')}>
-                    <View style={{justifyContent: 'center',  alignItems: 'center', }}>
-                        <Text style={{color: theme.colors.active}} >
-                            <AntDesign
-                                name="form"
-                                size={theme.sizes.font*1.5}
-                            />
-                            {'\t'}{'\t'}Inscription
-                        </Text>
-                    </View>
-                </TouchableOpacity>
-            </View>
-        </ScrollView>
+          )
+      }
+      else {
+          return (
+              <ScrollView>
+                  <View style={styles.flex}>
+                      <View style={[styles.flex]}>
+                          <ScrollView
+                              horizontal
+                              pagingEnabled
+                              scrollEnabled
+                              showsHorizontalScrollIndicator={false}
+                              decelerationRate={0}
+                              scrollEventThrottle={16}
+                              snapToAlignment="center"
+                              onScroll={Animated.event([{nativeEvent: {contentOffset: {x: this.scrollX}}}])}
+                          >
+                              {
+                                  article.images.map((img, index) =>
+                                      <Image
+                                          key={`${index}-${img}`}
+                                          source={img}
+                                          resizeMode='cover'
+                                          style={{width, height: width / 1.2}}
+                                      />
+                                  )
+                              }
+                          </ScrollView>
+                          {this.renderDots()}
+                      </View>
+                      <View style={[styles.flex, styles.content]}>
+                          <View style={[styles.flex, styles.contentHeader]}>
+                              <Image style={[styles.avatar, styles.shadow]} source={article.user.avatar}/>
+                              <Text style={styles.title}>{article.title}</Text>
+                              <View style={[
+                                  styles.row,
+                                  {alignItems: 'center', marginVertical: theme.sizes.margin / 4}
+                              ]}>
+                              </View>
 
-    )
+                              <Text style={styles.description}>
+                                  {article.description}
+                              </Text>
+                          </View>
+                      </View>
+                  </View>
+              </ScrollView>
+
+          )
+      }
   }
 }
 

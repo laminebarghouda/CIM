@@ -10,47 +10,58 @@ import * as theme from "../theme";
 
  const stackNavigator = createStackNavigator(
   {
-    List,
-    Article,
+    List: {
+        screen : List
+    },
+    Article:{
+        screen: Article,
+    },
   },
   {
     initialRouteName: "List",
   }
 );
 
+
  const TabNavigator = createBottomTabNavigator(
     {
         List: {
             screen: stackNavigator,
-            navigationOptions: {
-                tabBarIcon: () => {
+            navigationOptions: ({ navigation }) => ({
+                tabBarIcon: ({focused}) => {
                     return <AntDesign
+                        focused={{ focused }}
                         name="home"
                         size={theme.sizes.font * 1.5}
+                        active={focused}
+                        color={focused ? theme.colors.active : theme.colors.black}
                     />
                 }
-            }
+            }),
         },
         Settings: {
             screen: Settings,
             navigationOptions: {
                 tabBarIcon: ({focused}) => {
                     return <AntDesign
+                        focused={{ focused }}
                         name="exclamationcircleo"
                         size={theme.sizes.font * 1.5}
                         active={focused}
+                        color={focused ? theme.colors.active : theme.colors.black}
                     />
                 }
             }
         }
     },
+
     {
         tabBarOptions: {
             activeBackgroundColor: '#DDDDDD',
             inactiveBackgroundColor: '#FFFFFF',
-            activeTintColor:'blue',
+            activeTintColor:theme.colors.active,
             showLabel: false,
-            showIcon: true
+            showIcon: true,
         },
     }
 )
