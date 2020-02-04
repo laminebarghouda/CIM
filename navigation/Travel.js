@@ -22,6 +22,15 @@ import * as theme from "../theme";
   }
 );
 
+stackNavigator.navigationOptions = ({ navigation }) => {
+    let tabBarVisible = true;
+    if (navigation.state.index > 0) {
+        tabBarVisible = false;
+    }
+    return {
+        tabBarVisible
+    };
+};
 
  const TabNavigator = createBottomTabNavigator(
     {
@@ -36,7 +45,7 @@ import * as theme from "../theme";
                         active={focused}
                         color={focused ? theme.colors.active : theme.colors.black}
                     />
-                }
+                },
             }),
         },
         Settings: {
@@ -54,7 +63,6 @@ import * as theme from "../theme";
             }
         }
     },
-
     {
         tabBarOptions: {
             activeBackgroundColor: '#DDDDDD',

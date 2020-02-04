@@ -113,8 +113,13 @@ const styles = StyleSheet.create({
 class Article extends Component {
   scrollX = new Animated.Value(0);
 
-  static navigationOptions = {
-      headerShown: false,
+
+  static navigationOptions = ({ navigation }) => {
+       let tabBarVisible = false
+      return {
+          headerShown: false,
+          tabBarVisible,
+      }
   }
 
   renderDots = () => {
